@@ -3,8 +3,8 @@ A cross-platform command line parser library with a user-friendly interface
 
 ## Features
 - [x] Easily addition of new arguments to the your program
+- [x] Autoassembly help for all added arguments
 - [x] Automatic memory cleaning
-- [x] Autoassembly help
 
 ## Documentation
 
