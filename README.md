@@ -1,4 +1,4 @@
-<img style="width:100%;" src="readme_banner.jpg">
+<img style="width:100%;" src="banner.jpg">
 
 # scmdp - simpliest command-line parser for C
 A cross-platform command line parser library with a user-friendly interface
