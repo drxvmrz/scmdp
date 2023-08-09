@@ -10,8 +10,7 @@ A cross-platform command line parser library with a user-friendly interface
 ## Documentation
 
 ## Examples
-In [examples](https://github.com/drxvmrz/scmdp/tree/main/examples) folder are presented two examples of using the scmdp library. Although they are rather primitive, they display all the necessary functionality well.
-They are also good hints for a quick start.
+[Examples](https://github.com/drxvmrz/scmdp/tree/main/examples) folder contains two examples of using the scmdp library. Although they are rather primitive, they display all the necessary functionality and can serve as hint for a quick start.
 
 ### Abstract example
 
