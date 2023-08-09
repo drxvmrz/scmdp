@@ -3,6 +3,7 @@ A cross-platform command line parser library with a user-friendly interface
 
 ## Features
 - [x] Output formatting and error messages easily accessible for changes
+- [x] Non-optional, optional and valuable optional arguments 
 - [x] Easily addition of new arguments to your program
 - [x] Autoassembly help for all added arguments
 - [x] Based on cross-platform C standard libraries
