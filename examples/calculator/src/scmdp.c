@@ -4,11 +4,11 @@
  * @brief Issues an error if something went wrong during the parsing
  * 
  * @param workspace Initialized workspace pointer
- * @param error_code The code of occured error (see 'enum errors' in scmdp.h file)
+ * @param errorCode The code of occured error (see 'enum errors' in scmdp.h file)
  * 
  * @returns Nothing
 */
-void showerr(scmdp_workspace *workspace, int error_code);
+void _ShowError(ScmdpWorkspace *workspace, int errorCode);
 
 /**
  * @brief Assemble and show the help for all initialized arguments.
@@ -17,11 +17,11 @@ void showerr(scmdp_workspace *workspace, int error_code);
  * @warning All error messages and formatting are in this function
  * 
  * @param workspace Initialized workspace pointer
- * @param full_help Checks if full help should be shown or only syntax help
+ * @param showFullHelp Checks if full help should be shown or only syntax help
  * 
  * @return Nothing
  */
-void showhelp(scmdp_workspace *workspace, bool full_help);
+void _ShowHelp(ScmdpWorkspace *workspace, bool showFullHelp);
 
 /** 
  * @brief Remove the whole workspace with all initialized arguments from memory
@@ -32,103 +32,102 @@ void showhelp(scmdp_workspace *workspace, bool full_help);
  * 
  * @returns Nothing
  */
-void delwrkspc(scmdp_workspace *workspace);
+void _DeleteWorkspace(ScmdpWorkspace *workspace);
 
-scmdp_workspace addwrkspc(char *syntax_help, char *description)
+ScmdpWorkspace AddWorkspace(char *syntaxHelp, char *description)
 {
-    scmdp_workspace new_workspace;
-    new_workspace.optional = malloc(sizeof(scmpd_opt_arg));
-    new_workspace.non_optional = malloc(sizeof(scmpd_nopt_arg));
-    new_workspace.non_opt_pars_count = 0;
-    new_workspace.opt_pars_count = 0;
-    new_workspace.val_opt_pars = 0;
-    new_workspace.help_arg.long_par = "";
-    new_workspace.help_arg.short_par = "";
-    new_workspace.syntax_help = syntax_help;
-    new_workspace.description = description;
-    return new_workspace;
+    ScmdpWorkspace newWorkspace;
+    newWorkspace.optArgs = malloc(sizeof(ScmdpOptArg));
+    newWorkspace.nonOptArgs = malloc(sizeof(ScmdpNonOptArg));
+    newWorkspace.numOfNonOptArgs = 0;
+    newWorkspace.numOfOptArgs = 0;
+    newWorkspace.numOfValOptArgs = 0;
+    newWorkspace.helpArg.longHelpKey = "";
+    newWorkspace.helpArg.shortHelpKey = "";
+    newWorkspace.syntaxHelp = syntaxHelp;
+    newWorkspace.descriptHelp = description;
+    return newWorkspace;
 }
 
-void addhelparg(scmdp_workspace *workspace, char *long_par, char *short_par)
+void AddHelpArg(ScmdpWorkspace *workspace, char *longKey, char *shortKey)
 {
-    scmpd_help_arg new_help_arg;
-    new_help_arg.long_par = long_par;
-    new_help_arg.short_par = short_par;
+    ScmdpHelpArg newHelpArg;
+    newHelpArg.longHelpKey = longKey;
+    newHelpArg.shortHelpKey = shortKey;
     
-    workspace->help_arg = new_help_arg;
+    workspace->helpArg = newHelpArg;
 }
 
-void addoptarg(scmdp_workspace *workspace, char *long_par, char *short_par, char *help, char *val_name, char **place)
+void AddOptArg(ScmdpWorkspace *workspace, char *longKey, char *shortKey, char *help, char *valName, char **valPlace)
 {
-    scmpd_opt_arg new_opt_arg;
-    new_opt_arg.long_par = long_par;
-    new_opt_arg.short_par = short_par;
-    new_opt_arg.help = help;
-    new_opt_arg.place = place;
-    new_opt_arg.val_name = val_name;
+    ScmdpOptArg newOptArg;
+    newOptArg.longKey = longKey;
+    newOptArg.shortKey = shortKey;
+    newOptArg.help = help;
+    newOptArg.valPlace = valPlace;
+    newOptArg.valName = valName;
 
-    if (strcmp(val_name, "") != 0 && val_name != NULL)
+    if (strcmp(valName, "") != 0 && valName != NULL)
     {
-        workspace->val_opt_pars += 1;
-        new_opt_arg.valuable = true;
+        workspace->numOfValOptArgs += 1;
+        newOptArg.isValuable = true;
     }
     else
     {
-        new_opt_arg.valuable = false;
+        newOptArg.isValuable = false;
     }
 
-    workspace->opt_pars_count += 1;
-    workspace->optional = realloc(workspace->optional, sizeof(scmpd_opt_arg) * workspace->opt_pars_count);
-    workspace->optional[workspace->opt_pars_count-1] = new_opt_arg;
+    workspace->numOfOptArgs += 1;
+    workspace->optArgs = realloc(workspace->optArgs, sizeof(ScmdpOptArg) * workspace->numOfOptArgs);
+    workspace->optArgs[workspace->numOfOptArgs-1] = newOptArg;
 }
 
-void addnoptarg(scmdp_workspace *workspace, char *par, char *help, char **place)
+void AddNonOptArg(ScmdpWorkspace *workspace, char *key, char *help, char **valPlace)
 {
-    scmpd_nopt_arg new_nopt_arg;
-    new_nopt_arg.par = par;
+    ScmdpNonOptArg new_nopt_arg;
+    new_nopt_arg.key = key;
     new_nopt_arg.help = help;
-    new_nopt_arg.place = place;
+    new_nopt_arg.valPlace = valPlace;
 
-    workspace->non_opt_pars_count += 1;
-    workspace->non_optional = realloc(workspace->non_optional, sizeof(scmpd_nopt_arg) * workspace->non_opt_pars_count);
-    workspace->non_optional[workspace->non_opt_pars_count-1] = new_nopt_arg;
+    workspace->numOfNonOptArgs += 1;
+    workspace->nonOptArgs = realloc(workspace->nonOptArgs, sizeof(ScmdpNonOptArg) * workspace->numOfNonOptArgs);
+    workspace->nonOptArgs[workspace->numOfNonOptArgs-1] = new_nopt_arg;
 }
 
-bool parseargs(scmdp_workspace *workspace, int argc, char *argv[])
+bool ParseArgs(ScmdpWorkspace *workspace, int argc, char *argv[])
 {
-    bool help_arg_found = false;
-    bool opt_arg_found = false;
+    bool helpArgFound = false;
+    bool optArgFound = false;
+    bool success = true;    
 
     /**
     *   First you need to check if there is an argument that calls the help.
-    *   If it is present, then we call the showhelp() function and exit the program
+    *   If it is present, then we call the _ShowHelp() function and exit the program
     */
     for (int i = 1; i < argc; i++)
     {
-        if(strcmp(argv[i], workspace->help_arg.long_par) == 0 || strcmp(argv[i], workspace->help_arg.short_par) == 0)
+        if(strcmp(argv[i], workspace->helpArg.longHelpKey) == 0 || strcmp(argv[i], workspace->helpArg.shortHelpKey) == 0)
         {
-            help_arg_found = true;
+            helpArgFound = true;
             break;
         }
     }
-    if (help_arg_found)
-    {
-        showhelp(workspace, true);
-        return false;
-    }
 
-    /*
-    *   If help was not called, we go to analyze all the entered arguments
-    */
-    if (argc-1 > workspace->non_opt_pars_count + workspace->opt_pars_count + workspace->val_opt_pars)
+    if (helpArgFound)
     {
-        showhelp(workspace, false);
-        return false;
+        _ShowHelp(workspace, true);
+        success = false;
     }
-    else if (argc-1 < workspace->non_opt_pars_count)
+    /* If help was not called, we go to analyze all the entered arguments */
+    else if (argc-1 > workspace->numOfNonOptArgs + workspace->numOfOptArgs + workspace->numOfValOptArgs)
     {
-        showhelp(workspace, false);
-        return false;
+        _ShowHelp(workspace, false);
+        success = false;
+    }
+    else if (argc-1 < workspace->numOfNonOptArgs)
+    {
+        _ShowHelp(workspace, false);
+        success = false;
     }
     else
     {   
@@ -140,128 +139,143 @@ bool parseargs(scmdp_workspace *workspace, int argc, char *argv[])
         */
         if (*argv[1] == '-' || *argv[1] == '/')
         {
-            /**
-             * If the first argument is optional, we go from the end to parse non-optional at first
-            */
-            for (int i = argc - 1; i > argc - workspace->non_opt_pars_count - 1; i--)
+            /* If the first argument is optional, we go from the end to parse non-optional at first */
+            for (int i = argc - 1; i > argc - workspace->numOfNonOptArgs - 1; i--)
             {
                 if (*argv[i] == '-' || *argv[i] == '/')
                 {
-                    showerr(workspace, ERR_NO_VAL_NOPT_PARAMETER);
-                    return false;
+                    _ShowError(workspace, ERR_NO_VAL_NOPT_PARAMETER);
+                    success = false;
+                    break;
                 }
                 else
                 {
-                    *(workspace->non_optional[i - argc + workspace->non_opt_pars_count].place) = argv[i];
+                    *(workspace->nonOptArgs[i - argc + workspace->numOfNonOptArgs].valPlace) = argv[i];
                 }
             }
-            /*
-            *   After non-optional arguments we come back to begin and parse optionals
-            */
-            for(int i = 1; i < argc - workspace->non_opt_pars_count; i++)
+            /* After non-optional arguments if parsing was succesful we come back to begin and parse optional ones */
+            if (success)
             {
-                if (*argv[i] == '-' || *argv[i] == '/')
+                for(int i = 1; i < argc - workspace->numOfNonOptArgs; i++)
                 {
-                    opt_arg_found = false;
-                    for (int j = 0; j < workspace->opt_pars_count; j++)
+                    if (*argv[i] == '-' || *argv[i] == '/')
                     {
-                        if(strcmp(argv[i], workspace->optional[j].long_par) == 0 || strcmp(argv[i], workspace->optional[j].short_par) == 0)
+                        optArgFound = false;
+                        for (int j = 0; j < workspace->numOfOptArgs; j++)
                         {
-                            opt_arg_found = true;
-                            if(workspace->optional[j].valuable)
+                            if(strcmp(argv[i], workspace->optArgs[j].longKey) == 0 || strcmp(argv[i], workspace->optArgs[j].shortKey) == 0)
                             {
-                                if((i + 1 > argc - workspace->non_opt_pars_count - 1) || (*argv[i+1] == '-' || *argv[i+1] == '/'))
+                                optArgFound = true;
+                                if(workspace->optArgs[j].isValuable)
                                 {
-                                    showerr(workspace, ERR_NO_VAL_OPT_PARAMETER);
-                                    return false;
+                                    if((i + 1 > argc - workspace->numOfNonOptArgs - 1) || (*argv[i+1] == '-' || *argv[i+1] == '/'))
+                                    {
+                                        _ShowError(workspace, ERR_NO_VAL_OPT_PARAMETER);
+                                        success = false;
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        *(workspace->optArgs[j].valPlace) = argv[i+1];
+                                        ++i;
+                                    }
                                 }
                                 else
                                 {
-                                    *(workspace->optional[j].place) = argv[i+1];
-                                    ++i;
+                                    *(workspace->optArgs[j].valPlace) = "true";
                                 }
                             }
-                            else
+                        }
+                        if(success)
+                        {
+                            if (!optArgFound)
                             {
-                                *(workspace->optional[j].place) = "true";
+                                _ShowError(workspace, ERR_UNKNOWN_PARAMETER);
+                                success = false;
+                                break;
                             }
                         }
                     }
-                    if (!opt_arg_found)
+                    else
                     {
-                        showerr(workspace, ERR_UNKNOWN_PARAMETER);
-                        return false;
+                        _ShowError(workspace, ERR_WRONG_SYNTAX);
+                        success = false;
+                        break;
                     }
-                }
-                else
-                {
-                    showerr(workspace, ERR_WRONG_SYNTAX);
-                    return false;
                 }
             }
         }
         else
         {
-            /**
-             * If the first argument is non-optional, we go parse arguments in direct order
-            */
-            for (int i = 1; i < workspace->non_opt_pars_count+1; i++)
+            /* If the first argument is non-optional, we go parse arguments in direct order */
+            for (int i = 1; i < workspace->numOfNonOptArgs+1; i++)
             {
                 if (*argv[i] == '-' || *argv[i] == '/')
                 {
-                    showerr(workspace, ERR_NO_VAL_NOPT_PARAMETER);
-                    return false;
+                    _ShowError(workspace, ERR_NO_VAL_NOPT_PARAMETER);
+                    success = false;
+                    break;
                 }
                 else
                 {
-                    *(workspace->non_optional[i-1].place) = argv[i];
+                    *(workspace->nonOptArgs[i-1].valPlace) = argv[i];
                 }
             }
-            /**
-             * Separate loop for parsing optional arguments in direct order
-            */
-            for (int i = workspace->non_opt_pars_count+1; i < argc; i++)
+            if (success)
             {
-                opt_arg_found = false;
-                for (int j = 0; j < workspace->opt_pars_count; j++)
+                /* Separate loop for parsing optional arguments in direct order */
+                for (int i = workspace->numOfNonOptArgs+1; i < argc; i++)
                 {
-                    if(strcmp(argv[i], workspace->optional[j].long_par) == 0 || strcmp(argv[i], workspace->optional[j].short_par) == 0)
+                    optArgFound = false;
+                    for (int j = 0; j < workspace->numOfOptArgs; j++)
                     {
-                        opt_arg_found = true;
-                        if(workspace->optional[j].valuable)
+                        if(strcmp(argv[i], workspace->optArgs[j].longKey) == 0 || strcmp(argv[i], workspace->optArgs[j].shortKey) == 0)
                         {
-                            if((i+1 >= argc) || (*argv[i+1] == '-' || *argv[i+1] == '/'))
+                            optArgFound = true;
+                            if(workspace->optArgs[j].isValuable)
                             {
-                                showerr(workspace, ERR_NO_VAL_OPT_PARAMETER);
-                                return false;
+                                if((i+1 >= argc) || (*argv[i+1] == '-' || *argv[i+1] == '/'))
+                                {
+                                    _ShowError(workspace, ERR_NO_VAL_OPT_PARAMETER);
+                                    success = false;
+                                    break;
+                                }
+                                else
+                                {
+                                    *(workspace->optArgs[j].valPlace) = argv[i+1];
+                                    ++i;
+                                }
                             }
                             else
                             {
-                                *(workspace->optional[j].place) = argv[i+1];
-                                ++i;
+                                *(workspace->optArgs[j].valPlace) = "true";
                             }
                         }
-                        else
+                    }
+                    if(success)
+                    {
+                        if (!optArgFound)
                         {
-                            *(workspace->optional[j].place) = "true";
+                            _ShowError(workspace, ERR_UNKNOWN_PARAMETER);
+                            success = false;
+                            break;
                         }
                     }
-                }
-                if (!opt_arg_found)
-                {
-                    showerr(workspace, ERR_UNKNOWN_PARAMETER);
-                    return false;
                 }
             }
         }
     }
-    return true;
+    /** Now release the memory! 
+     * Everything is scattered into variables or error message was issued
+     * We don't need workspace anymore! */
+    _DeleteWorkspace(workspace);
+    return success;
 }    
 
-void showerr(scmdp_workspace *workspace, int error_code)
+void _ShowError(ScmdpWorkspace *workspace, int errorCode)
 {
     char *error;
-    switch (error_code)
+    switch (errorCode)
     {
     case ERR_NO_VAL_NOPT_PARAMETER:
         error = "Error: Need a value for non-optional parameter!";
@@ -281,51 +295,57 @@ void showerr(scmdp_workspace *workspace, int error_code)
     default:
         break;
     }
-    printf("\n%s\nprint -h or --help to see help\n", error);
+    printf("%s\nprint -h or --help to see help\n", error);
 }
 
-void showhelp(scmdp_workspace *workspace, bool full_help)
+void _ShowHelp(ScmdpWorkspace *workspace, bool showFullHelp)
 {
-    char check_symbol = 0;
-    if(!full_help)
+    char checkSymbol = 0;
+    if(!showFullHelp)
     {
-        printf("%s\n", workspace->syntax_help);
+        printf("%s\n", workspace->syntaxHelp);
     }
     else
     {
-        printf("%s\n\n%s\n", workspace->syntax_help, workspace->description);
+        printf("%s\n\n%s\n", workspace->syntaxHelp, workspace->descriptHelp);
         
         printf("\n>> Non-optional arguments:\n");
-        for (int i = 0; i < workspace->non_opt_pars_count; i++)
+        for (int i = 0; i < workspace->numOfNonOptArgs; i++)
         {
-            printf("\n%3s%-10s", " ", workspace->non_optional[i].par);
-            while (check_symbol = *workspace->non_optional[i].help++)
+            printf("\n%3s%-10s", " ", workspace->nonOptArgs[i].key);
+            while (checkSymbol = *workspace->nonOptArgs[i].help++)
             {
-                if (check_symbol == '\n')
+                if (checkSymbol == '\n')
                 {
                     printf("\n%-13s", " ");
                 }
                 else
                 {
-                    printf("%c", check_symbol);
+                    printf("%c", checkSymbol);
                 }
             }
         }
         printf("\n\n>> Optional agruments:\n");
-        for (int i = 0; i < workspace->opt_pars_count; i++)
+        for (int i = 0; i < workspace->numOfOptArgs; i++)
         {
-            printf("\n%3s%-10s,%-5s%-7s", " ", workspace->optional[i].long_par, workspace->optional[i].short_par, workspace->optional[i].val_name);
-            while (check_symbol = *workspace->optional[i].help++)
+            printf("\n%3s%-10s,%-5s%-7s", " ", workspace->optArgs[i].longKey, workspace->optArgs[i].shortKey, workspace->optArgs[i].valName);
+            while (checkSymbol = *workspace->optArgs[i].help++)
             {
-                if (check_symbol == '\n')
+                if (checkSymbol == '\n')
                 {
                     printf("\n%-26s", " ");
                 }
                 else
                 {
-                    printf("%c", check_symbol);
+                    printf("%c", checkSymbol);
                 }
             }
         }
     }
+}
+
+void _DeleteWorkspace(ScmdpWorkspace *workspace)
+{
+    free(workspace->optArgs);
+    free(workspace->nonOptArgs);
 }
