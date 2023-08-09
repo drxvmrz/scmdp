@@ -84,14 +84,14 @@ void AddOptArg(ScmdpWorkspace *workspace, char *longKey, char *shortKey, char *h
 
 void AddNonOptArg(ScmdpWorkspace *workspace, char *key, char *help, char **valPlace)
 {
-    ScmdpNonOptArg new_nopt_arg;
-    new_nopt_arg.key = key;
-    new_nopt_arg.help = help;
-    new_nopt_arg.valPlace = valPlace;
+    ScmdpNonOptArg newNonOptArg;
+    newNonOptArg.key = key;
+    newNonOptArg.help = help;
+    newNonOptArg.valPlace = valPlace;
 
     workspace->numOfNonOptArgs += 1;
     workspace->nonOptArgs = realloc(workspace->nonOptArgs, sizeof(ScmdpNonOptArg) * workspace->numOfNonOptArgs);
-    workspace->nonOptArgs[workspace->numOfNonOptArgs-1] = new_nopt_arg;
+    workspace->nonOptArgs[workspace->numOfNonOptArgs-1] = newNonOptArg;
 }
 
 bool ParseArgs(ScmdpWorkspace *workspace, int argc, char *argv[])
