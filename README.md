@@ -36,7 +36,7 @@ ScmdpWorkspace AddWorkspace(char *syntaxHelp, char *description)
 After creating the workspace, you can safely add new arguments to it.  
 You can start by adding an argument calls help:
 ```c++
-AddHelpArg(ScmdpWorkspace *workspace, char *longKey, char *shortKey)
+void AddHelpArg(ScmdpWorkspace *workspace, char *longKey, char *shortKey)
 ```
 <details>
   <summary> Parameters and example </summary>
@@ -50,6 +50,23 @@ AddHelpArg(ScmdpWorkspace *workspace, char *longKey, char *shortKey)
   ```
 </details>
 
+Also there's no obstacles to add a non-optional (necessary) agrument:  
+```c++
+void AddNonOptArg(ScmdpWorkspace *workspace, char *key, char *help, char **valPlace)
+```
+<details>
+  <summary> Parameters and example </summary>
+
+  ```workspace``` - A pointer to created workspace  
+  ```longKey``` - The long key to call an argument (usually prefixed with '--' in UNIX)  
+  ```shortKey``` - The short key to call an argument (usually prefixed with '-' in UNIX)
+  
+  ```c++
+  char *arg1;
+
+  AddNonOptArg(&workspace, "ARG1", "Necessary argument 1", **arg1);
+  ```
+</details>
 
 
 ## Examples
