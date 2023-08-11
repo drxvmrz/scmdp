@@ -42,8 +42,8 @@ void AddHelpArg(ScmdpWorkspace *workspace, char *longKey, char *shortKey)
   <summary> Parameters and example </summary>
 
   ```workspace``` - A pointer to created workspace  
-  ```longKey``` - The long key to call an argument (usually prefixed with '--' in UNIX)  
-  ```shortKey``` - The short key to call an argument (usually prefixed with '-' in UNIX)
+  ```longKey``` - The long key to call a help argument (usually prefixed with '--' in UNIX)  
+  ```shortKey``` - The short key to call a help argument (usually prefixed with '-' in UNIX)
   
   ```c++
   AddHelpArg(&workspace, "--help", "-h");
@@ -58,8 +58,9 @@ void AddNonOptArg(ScmdpWorkspace *workspace, char *key, char *help, char **valPl
   <summary> Parameters and example </summary>
 
   ```workspace``` - A pointer to created workspace  
-  ```longKey``` - The long key to call an argument (usually prefixed with '--' in UNIX)  
-  ```shortKey``` - The short key to call an argument (usually prefixed with '-' in UNIX)
+  ```key``` - The name of non-optional argument 
+  ```help``` - String literal describing what is the agrument purpose
+  ```valPlace``` - A pointer of variable to drop value of argument
   
   ```c++
   char *arg1;
