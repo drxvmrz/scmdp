@@ -122,7 +122,10 @@ bool ParseArgs(&workspace, argc, argv);
     if (!ParseArgs(&workspace, argc, argv)) return 0;
   ```
 ---
-</details>
+</details>  
+
+### 5. Enjoy and write your program body!
+
 
 ## Examples
 [Examples](https://github.com/drxvmrz/scmdp/tree/main/examples) folder contains two examples of using the [scmdp](https://github.com/drxvmrz/scmdp) library. 
