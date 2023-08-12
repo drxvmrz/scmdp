@@ -31,6 +31,7 @@ ScmdpWorkspace AddWorkspace(char *syntaxHelp, char *description)
   ```c++
   ScmdpWorkspace workspace = AddWorkspace("app [-opt] arg1 arg2", "Test command-line application!")
   ```
+---
 </details>
 
 ### 3. Start adding arguments
@@ -49,6 +50,7 @@ void AddHelpArg(ScmdpWorkspace *workspace, char *longKey, char *shortKey)
   ```c++
   AddHelpArg(&workspace, "--help", "-h");
   ```
+---
 </details>
 
 Also there's no obstacles to add a non-optional (necessary) agrument  
@@ -68,6 +70,7 @@ void AddNonOptArg(ScmdpWorkspace *workspace, char *key, char *help, char **valPl
 
   AddNonOptArg(&workspace, "ARG1", "Necessary argument 1", **arg1);
   ```
+---
 </details>
 
 You can add optional arguments if you need it.  
@@ -95,6 +98,7 @@ void AddOptArg(ScmdpWorkspace *workspace, char *longKey, char *shortKey, char *h
   /* Without value. It drops a string literal "true" in *optArgWithoutValue if an argument is recieved */
   AddOptArg(&workspace, "--option2", "-op2", "Optional argument 2 without value", "", &optArgWithoutValue);
   ```
+---
 </details>
 
 ### 4. Parse you arguments
@@ -117,6 +121,7 @@ bool ParseArgs(&workspace, argc, argv);
     /* If the parsing fails, then clear the memory and exit the program */
     if (!ParseArgs(&workspace, argc, argv)) return 0;
   ```
+---
 </details>
 
 ## Examples
