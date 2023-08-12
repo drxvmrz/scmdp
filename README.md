@@ -135,3 +135,45 @@ they display all the necessary functionality and can serve as hint for a quick s
 ### Calculator
 
 ### How to build them?
+You can build example programs by three methods depending on the toolset you prefer to use  
+
+<details>
+  <summary> (UNIX) Directly with GCC </summary>  
+  
+  Make sure the path to the gcc compiler is in the PATH variable  
+  Then open ```Terminal``` in example source files folder
+
+  ```
+  ...
+  ```
+
+  Then enjoy the example! :)
+  
+---
+</details>
+
+<details>
+  <summary> (WINDOWS) Directly with MSVC (cl.exe) </summary>  
+  
+  Open ```Developer command prompt``` and enter next commands line by line  
+  
+  ```
+  cd <the way to folder with example sources. example: C:\Users\UserMaktop\scmdp\examples\abstract\src>
+  cl *.c /I ../inc /Feapp.exe
+  app
+  ```
+  Then enjoy the example! :)
+  
+---
+</details>
+
+<details>
+  <summary> (Cross-platform) With CMake </summary>
+
+  
+
+
+  Then enjoy the example! :)
+  
+---
+</details>
