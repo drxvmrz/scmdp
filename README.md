@@ -13,11 +13,12 @@ A cross-platform command line parser library with a user-friendly interface
 
 ## Quick start
 ### 1. Add library to your own project
-The [scmdp](https://github.com/drxvmrz/scmdp) library consists of only two files: [scmdp.h](https://github.com/drxvmrz/scmdp/tree/main/inc) as interface and [scmdp.с](https://github.com/drxvmrz/scmdp/tree/main/src) with implementation. There is nothing to pre-compile or pre-build, just add them to other project source files.
+The [scmdp](https://github.com/drxvmrz/scmdp) library consists of only two files: [scmdp.h](https://github.com/drxvmrz/scmdp/tree/main/inc) as interface and [scmdp.с](https://github.com/drxvmrz/scmdp/tree/main/src) with implementation.  
+There is nothing to pre-compile or pre-build, just add them to other project source files.
 
 That's all, You are ready to create your own CLI user interface!
 ### 2. Create the workspace
-The first thing to do is create a workspace. It stores all data about arguments of the program.
+The first thing to do is create a workspace. It stores all data about arguments of the program
 ```c++
 ScmdpWorkspace AddWorkspace(char *syntaxHelp, char *description)
 ```
@@ -34,7 +35,7 @@ ScmdpWorkspace AddWorkspace(char *syntaxHelp, char *description)
 
 ### 3. Start adding arguments
 After creating the workspace, you can safely add new arguments to it.  
-You can start by adding an argument calls help:
+You can start by adding an argument calls help
 ```c++
 void AddHelpArg(ScmdpWorkspace *workspace, char *longKey, char *shortKey)
 ```
@@ -50,7 +51,7 @@ void AddHelpArg(ScmdpWorkspace *workspace, char *longKey, char *shortKey)
   ```
 </details>
 
-Also there's no obstacles to add a non-optional (necessary) agrument:  
+Also there's no obstacles to add a non-optional (necessary) agrument  
 ```c++
 void AddNonOptArg(ScmdpWorkspace *workspace, char *key, char *help, char **valPlace)
 ```
@@ -119,10 +120,13 @@ bool ParseArgs(&workspace, argc, argv);
 </details>
 
 ## Examples
-[Examples](https://github.com/drxvmrz/scmdp/tree/main/examples) folder contains two examples of using the [scmdp](https://github.com/drxvmrz/scmdp) library. Although they are rather primitive, they display all the necessary functionality and can serve as hint for a quick start.
+[Examples](https://github.com/drxvmrz/scmdp/tree/main/examples) folder contains two examples of using the [scmdp](https://github.com/drxvmrz/scmdp) library. 
+Although they are rather primitive,  
+they display all the necessary functionality and can serve as hint for a quick start.
 
 ### Abstract example
 
+
 ### Calculator
 
-### Building examples
+### How to build them?
