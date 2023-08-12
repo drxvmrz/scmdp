@@ -58,9 +58,9 @@ void AddNonOptArg(ScmdpWorkspace *workspace, char *key, char *help, char **valPl
   <summary> Parameters and example </summary>
 
   ```workspace``` - A pointer to created workspace  
-  ```key``` - The name of non-optional argument 
-  ```help``` - String literal describing what is the agrument purpose
-  ```valPlace``` - A pointer of variable to drop value of argument
+  ```key``` - The name of non-optional argument  
+  ```help``` - String literal describing what is the agrument purpose  
+  ```valPlace``` - A pointer of variable to drop value of argument  
   
   ```c++
   char *arg1;
@@ -69,6 +69,54 @@ void AddNonOptArg(ScmdpWorkspace *workspace, char *key, char *help, char **valPl
   ```
 </details>
 
+You can add optional arguments if you need it.  
+They can be either with or without a value, everything is done by one function
+```c++
+void AddOptArg(ScmdpWorkspace *workspace, char *longKey, char *shortKey, char *help, char *valName, char **valPlace);
+```
+<details>
+  <summary> Parameters and example </summary>
+
+  ```workspace``` - A pointer to created workspace  
+  ```longKey``` - The long key to call a help argument (usually prefixed with '--' in UNIX)  
+  ```shortKey``` - The short key to call a help argument (usually prefixed with '-' in UNIX)  
+  ```help``` - String literal describing what is the agrument purpose  
+  ```valName``` - String literal contains a name of value. Use "" if an argument is a non-valuable.  
+  ```valPlace``` - A pointer of variable to drop value of argument  
+  
+  ```c++
+  char *optArgWithValue;
+  char *optArgWithoutValue;
+
+  /* With value */
+  AddOptArg(&workspace, "--option1", "-op1", "Optional argument 1 with value", "VALUE", &optArgWithValue);
+
+  /* Without value. It drops a string literal "true" in *optArgWithoutValue if an argument is recieved */
+  AddOptArg(&workspace, "--option2", "-op2", "Optional argument 2 without value", "", &optArgWithoutValue);
+  ```
+</details>
+
+### 4. Parse you arguments
+It is obvious that you were creating arguments to get their value. To do this, use the function
+```c++
+bool ParseArgs(&workspace, argc, argv);
+```
+
+<details>
+  <summary> Parameters and example </summary>
+
+  ```workspace``` - A pointer to created workspace  
+  ```argc``` - The same is ```argc``` in ```int main(int argc, char* argv[])```  
+  ```argv``` - The same is ```argv[]``` in ```int main(int argc, char* argv[])```   
+
+  The function returns TRUE if parsing is a success.  
+  Otherwise it returns FALSE.  
+  
+  ```c++
+    /* If the parsing fails, then clear the memory and exit the program */
+    if (!ParseArgs(&workspace, argc, argv)) return 0;
+  ```
+</details>
 
 ## Examples
 [Examples](https://github.com/drxvmrz/scmdp/tree/main/examples) folder contains two examples of using the [scmdp](https://github.com/drxvmrz/scmdp) library. Although they are rather primitive, they display all the necessary functionality and can serve as hint for a quick start.
