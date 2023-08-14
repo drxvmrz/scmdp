@@ -141,13 +141,16 @@ they display all the necessary functionality and can serve as hint for a quick s
 You can build example programs by three methods depending on the toolset you prefer to use  
 
 <details>
-  <summary> (UNIX) Directly with GCC </summary>  
+  <summary> (UNIX) GCC </summary>  
   
+  ---  
+   
   Make sure the path to the gcc compiler is in the PATH variable  
-  Then open ```Terminal``` in example source files folder
+  Then open ```Terminal``` in example source files folder ```/src```  
 
   ```
-  ...
+  gcc *.c -I ../inc -o app
+  ./app
   ```
 
   Then enjoy the example! :)
@@ -156,12 +159,14 @@ You can build example programs by three methods depending on the toolset you pre
 </details>
 
 <details>
-  <summary> (WINDOWS) Directly with MSVC (cl.exe) </summary>  
+  <summary> (WINDOWS) MSVC (cl.exe) </summary>  
   
-  Open ```Developer command prompt``` and enter next commands line by line  
+  ---  
+    
+  Open ```Developer command prompt``` and invoke next commands line by line  
   
   ```
-  cd <the way to folder with example sources. example: C:\Users\UserMaktop\scmdp\examples\abstract\src>
+  cd "the way to folder with example sources. example: C:\Users\User\Desktop\scmdp\examples\abstract\src"
   cl *.c /I ../inc /Feapp.exe
   app
   ```
@@ -171,11 +176,21 @@ You can build example programs by three methods depending on the toolset you pre
 </details>
 
 <details>
-  <summary> (Cross-platform) With CMake </summary>
+  <summary> (Cross-platform) CMake </summary>  
 
+  ---  
   
+  Open ```Terminal``` in root folder of example you need to build  
+  or invoke command ```cd <path to folder>``` and then next commands
 
-
+  ```
+  mkdir build
+  cd ./build
+  cmake ../
+  cmake --build
+  cd ./Debug
+  app (or ./app in UNIX)
+  ```  
   Then enjoy the example! :)
   
 ---
