@@ -143,7 +143,7 @@ Although they are rather primitive,
 they display all the necessary functionality and can serve as hint for a quick start.
 
 ### Abstract example
-A simple application demonstrates using of optional and non-optional arguments.
+A simple application demonstrates using of optional and non-optional arguments.  
 As a result of the work the string values of the received arguments are displayed in the console.
 
 ### Calculator
