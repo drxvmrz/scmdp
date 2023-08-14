@@ -7,7 +7,7 @@ int main(int argc, char* argv[])
     char *num1, *num2, *act, *verbose = "";
 
     /* Initialize workspace */
-    ScmdpWorkspace workspace = AddWorkspace("USAGE: CALC NUM1 ACT NUM2  [-OPTIONS]\nOR: CALC [-OPTIONS] NUM1 ACT NUM2",
+    ScmdpWorkspace workspace = AddWorkspace("USAGE: app NUM1 ACT NUM2  [-OPTIONS]\nOR: app [-OPTIONS] NUM1 ACT NUM2",
     "Calculate something with two numbers");
 
     /* We initialize the arguments that may be needed for the program to work */
