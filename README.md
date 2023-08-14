@@ -28,7 +28,7 @@ ScmdpWorkspace AddWorkspace(char *syntaxHelp, char *description)
   ---  
     
   ```syntaxHelp``` - String literal with syntax help. It issues if a number of entered parameters is too large or too small  
-  ```description``` - String literal describing what the program will do and what its purpose is
+  ```description``` - String literal describing what the program will do and what its purpose is  
   
   ```c++
   ScmdpWorkspace workspace = AddWorkspace("app [-opt] arg1 arg2", "Test command-line application!")
