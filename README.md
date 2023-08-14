@@ -143,9 +143,11 @@ Although they are rather primitive,
 they display all the necessary functionality and can serve as hint for a quick start.
 
 ### Abstract example
-
+A simple application demonstrates using of optional and non-optional arguments.
 
 ### Calculator
+A primitive calculator capable of performing simple operations (*, /, +, -) on integers.  
+As a result of the work the string values of the received arguments are displayed in the console.
 
 ### How to build them?
 You can build example programs by three methods depending on the toolset you prefer to use  
