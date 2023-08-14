@@ -24,7 +24,9 @@ ScmdpWorkspace AddWorkspace(char *syntaxHelp, char *description)
 ```
 <details>
   <summary> Parameters and example </summary>
-  
+
+  ---  
+    
   ```syntaxHelp``` - String literal with syntax help. It issues if a number of entered parameters is too large or too small  
   ```description``` - String literal describing what the program will do and what its purpose is
   
@@ -41,7 +43,9 @@ You can start by adding an argument calls help
 void AddHelpArg(ScmdpWorkspace *workspace, char *longKey, char *shortKey)
 ```
 <details>
-  <summary> Parameters and example </summary>
+  <summary> Parameters and example </summary>  
+
+  ---  
 
   ```workspace``` - A pointer to created workspace  
   ```longKey``` - The long key to call a help argument (usually prefixed with '--' in UNIX)  
@@ -58,8 +62,10 @@ Also there's no obstacles to add a non-optional (necessary) agrument
 void AddNonOptArg(ScmdpWorkspace *workspace, char *key, char *help, char **valPlace)
 ```
 <details>
-  <summary> Parameters and example </summary>
+  <summary> Parameters and example </summary>  
 
+  ---  
+  
   ```workspace``` - A pointer to created workspace  
   ```key``` - The name of non-optional argument  
   ```help``` - String literal describing what is the agrument purpose  
@@ -79,7 +85,9 @@ They can be either with or without a value, everything is done by one function
 void AddOptArg(ScmdpWorkspace *workspace, char *longKey, char *shortKey, char *help, char *valName, char **valPlace);
 ```
 <details>
-  <summary> Parameters and example </summary>
+  <summary> Parameters and example </summary>  
+
+  ---  
 
   ```workspace``` - A pointer to created workspace  
   ```longKey``` - The long key to call a help argument (usually prefixed with '--' in UNIX)  
@@ -108,8 +116,10 @@ bool ParseArgs(&workspace, argc, argv);
 ```
 
 <details>
-  <summary> Parameters and example </summary>
+  <summary> Parameters and example </summary>  
 
+  ---  
+  
   ```workspace``` - A pointer to created workspace  
   ```argc``` - The same is ```argc``` in ```int main(int argc, char* argv[])```  
   ```argv``` - The same is ```argv[]``` in ```int main(int argc, char* argv[])```   
@@ -187,9 +197,8 @@ You can build example programs by three methods depending on the toolset you pre
   mkdir build
   cd ./build
   cmake ../
-  cmake --build
-  cd ./Debug
-  app (or ./app in UNIX)
+  cmake --build ./
+  ./app (or without ./ on WINDOWS)
   ```  
   Then enjoy the example! :)
   
