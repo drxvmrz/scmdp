@@ -14,6 +14,10 @@
 #define ERR_WRONG_PARS_NUMBER 3
 #define ERR_WRONG_SYNTAX 4
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /* Structure of optional argument */
 typedef struct
 {
@@ -124,6 +128,10 @@ void AddNonOptArg(ScmdpWorkspace *workspace, char *key, char *help, char **valPl
  * @return TRUE, if the parsing was successful. Otherwise, FALSE.
 */
 bool ParseArgs(ScmdpWorkspace *workspace, int argc, char *argv[]);
+
+#ifdef __cplusplus
+}
+#endif
 
 /* If scmdp is not yet connected it will be compiled */
 #endif
