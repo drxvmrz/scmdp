@@ -1,6 +1,6 @@
 <img style="width:100%;" src="banner.png">
 
-# scmdp - simplest command-line parser for C/C++
+# scmdp - simplest command-line parser for C
 A cross-platform command line parser library with a user-friendly interface
 
 ## Features
